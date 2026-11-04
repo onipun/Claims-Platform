@@ -1,0 +1,187 @@
+name: chubb-claims
+
+x-java-service: &java-service
+  restart: unless-stopped
+  mem_limit: 768m
+  healthcheck:
+    test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+    interval: 10s
+    timeout: 5s
+    retries: 18
+    start_period: 30s
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_dev}
+    ports:
+      - "127.0.0.1:15432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      # TCP plus a real query: during init the server listens on the socket only,
+      # and pg_isready alone reports ready before the databases exist.
+      test: ["CMD-SHELL", "psql -h 127.0.0.1 -U postgres -d insights -tAc 'select 1' && psql -h 127.0.0.1 -U postgres -d claims -tAc 'select 1'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  kafka:
+    image: apache/kafka:4.4.0
+    restart: unless-stopped
+    mem_limit: 1g
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:19092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_HEAP_OPTS: -Xms256m -Xmx512m
+    ports:
+      - "127.0.0.1:19092:19092"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null"]
+      interval: 10s
+      timeout: 10s
+      retries: 18
+      start_period: 15s
+
+  # One-shot. Topics are created here because broker auto-creation is off.
+  kafka-init:
+    image: apache/kafka:4.4.0
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        T=/opt/kafka/bin/kafka-topics.sh
+        B=kafka:9092
+        $$T --bootstrap-server $$B --create --if-not-exists --topic claims.events.v1 \
+            --partitions 3 --replication-factor 1 \
+            --config cleanup.policy=compact --config min.insync.replicas=1
+        $$T --bootstrap-server $$B --create --if-not-exists --topic claims.events.v1.DLT \
+            --partitions 3 --replication-factor 1 \
+            --config retention.ms=604800000
+        $$T --bootstrap-server $$B --describe --topic claims.events.v1
+
+  claims-service:
+    <<: *java-service
+    build: ./services/claims-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    environment:
+      SPRING_PROFILES_ACTIVE: demo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/claims
+      SPRING_DATASOURCE_USERNAME: claims_app
+      SPRING_DATASOURCE_PASSWORD: claims_dev
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_DOCUMENTS_DIR: /data/documents
+      APP_JWT_KEY_DIR: /data/keys
+      JAVA_TOOL_OPTIONS: -Xmx512m
+    ports:
+      - "127.0.0.1:18080:8080"
+    volumes:
+      - claims-data:/data
+
+  # Deliberately no dependency on claims-service. Each must start and run
+  # without the other; JWKS keys are fetched lazily on the first request.
+  insights-service:
+    <<: *java-service
+    build: ./services/insights-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    environment:
+      SPRING_PROFILES_ACTIVE: demo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/insights
+      SPRING_DATASOURCE_USERNAME: insights_app
+      SPRING_DATASOURCE_PASSWORD: insights_dev
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_CONSUMER_GROUP_ID: insights-projection
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://claims-service:8080/api/v1/.well-known/jwks.json
+      JAVA_TOOL_OPTIONS: -Xmx384m
+    ports:
+      - "127.0.0.1:18081:8080"
+
+  web:
+    build: ./web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:14200:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+
+  # ---- Test tooling. Only runs with: docker compose --profile test run --rm <name> ----
+  smoke:
+    profiles: [test]
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile.test
+    environment:
+      WEB_URL: http://web
+      CLAIMS_DB_URL: postgresql://claims_app:claims_dev@postgres:5432/claims
+      INSIGHTS_DB_URL: postgresql://insights_app:insights_dev@postgres:5432/insights
+    volumes:
+      - ./scripts:/scripts:ro
+    entrypoint: ["bash", "/scripts/smoke.sh"]
+
+  reconcile:
+    profiles: [test]
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile.test
+    environment:
+      CLAIMS_DB_URL: postgresql://claims_app:claims_dev@postgres:5432/claims
+      INSIGHTS_DB_URL: postgresql://insights_app:insights_dev@postgres:5432/insights
+      WEB_URL: http://web
+    volumes:
+      - ./scripts:/scripts:ro
+    entrypoint: ["bash", "/scripts/reconcile.sh"]
+
+  playwright:
+    profiles: [test]
+    image: mcr.microsoft.com/playwright:v1.64.1-noble
+    working_dir: /e2e
+    environment:
+      BASE_URL: http://web
+    ipc: host
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - ./web/e2e:/e2e
+      # npm ci writes here, not into the host folder (it would be root-owned).
+      - e2e-node-modules:/e2e/node_modules
+    entrypoint: ["sh", "-c", "npm ci --no-audit --no-fund && npx playwright test"]
+
+volumes:
+  postgres-data:
+  kafka-data:
+  claims-data:
+  e2e-node-modules:

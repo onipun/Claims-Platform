@@ -1,0 +1,3757 @@
+{
+  "components" : {
+    "schemas" : {
+      "AnswerInfoRequest" : {
+        "properties" : {
+          "answer" : {
+            "maxLength" : 4000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          }
+        },
+        "required" : [ "answer" ],
+        "type" : "object"
+      },
+      "Approval" : {
+        "properties" : {
+          "amount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount" ],
+        "type" : "object"
+      },
+      "Assessment" : {
+        "properties" : {
+          "reserve" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          }
+        },
+        "required" : [ "reserve" ],
+        "type" : "object"
+      },
+      "Assign" : {
+        "properties" : {
+          "officerId" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "required" : [ "officerId" ],
+        "type" : "object"
+      },
+      "ChecklistItem" : {
+        "properties" : {
+          "documentType" : {
+            "type" : "string"
+          },
+          "placeholder" : {
+            "type" : "boolean"
+          },
+          "reviewNote" : {
+            "type" : [ "string", "null" ]
+          },
+          "source" : {
+            "type" : [ "string", "null" ]
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "uploads" : {
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentView"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimantClaimDetail" : {
+        "properties" : {
+          "actionRequired" : {
+            "type" : "boolean"
+          },
+          "claimNumber" : {
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "OWN_DAMAGE", "THIRD_PARTY_DAMAGE", "TOTAL_LOSS", "WINDSCREEN", "THEFT", "FIRE", "WATER_DAMAGE", "STORM", "OTHER" ],
+            "type" : "string"
+          },
+          "contactPhone" : {
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "decision" : {
+            "$ref" : "#/components/schemas/DecisionView"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "estimate" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "incidentAtLocal" : {
+            "description" : "Local date and time in the claim's market zone, with no offset",
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "type" : "string"
+          },
+          "late" : {
+            "type" : "boolean"
+          },
+          "lateReason" : {
+            "type" : "string"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "marketZone" : {
+            "type" : "string"
+          },
+          "motor" : {
+            "$ref" : "#/components/schemas/MotorDetails"
+          },
+          "openQuestion" : {
+            "$ref" : "#/components/schemas/OpenQuestion"
+          },
+          "policyId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "policyNumber" : {
+            "type" : "string"
+          },
+          "property" : {
+            "$ref" : "#/components/schemas/PropertyDetails"
+          },
+          "reportedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED" ],
+            "type" : "string"
+          },
+          "timeline" : {
+            "items" : {
+              "$ref" : "#/components/schemas/TimelineEntry"
+            },
+            "type" : "array"
+          },
+          "version" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimantClaimSummary" : {
+        "properties" : {
+          "actionRequired" : {
+            "type" : "boolean"
+          },
+          "claimNumber" : {
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "OWN_DAMAGE", "THIRD_PARTY_DAMAGE", "TOTAL_LOSS", "WINDSCREEN", "THEFT", "FIRE", "WATER_DAMAGE", "STORM", "OTHER" ],
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "estimate" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "incidentAtLocal" : {
+            "description" : "Local date and time in the claim's market zone, with no offset",
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "type" : "string"
+          },
+          "late" : {
+            "type" : "boolean"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "reportedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimantPolicy" : {
+        "properties" : {
+          "coverageLimit" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "deductible" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "effectiveFrom" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "effectiveTo" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "marketCode" : {
+            "type" : "string"
+          },
+          "policyNumber" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimantUpdate" : {
+        "properties" : {
+          "actorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "at" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "claimId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "claimNumber" : {
+            "type" : "string"
+          },
+          "fromStatus" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED", null ],
+            "type" : [ "string", "null" ]
+          },
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "toStatus" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED", null ],
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Deadlines" : {
+        "properties" : {
+          "closedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "decidedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "decisionDueAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "firstPickedUpAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "overdue" : {
+            "type" : "boolean"
+          },
+          "pickupDueAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "waitingOnClaimant" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      },
+      "DecisionView" : {
+        "properties" : {
+          "amount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : [ "string", "null" ]
+          },
+          "currency" : {
+            "type" : [ "string", "null" ]
+          },
+          "decidedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "explanation" : {
+            "type" : [ "string", "null" ]
+          },
+          "outcome" : {
+            "type" : "string"
+          },
+          "reasonCode" : {
+            "enum" : [ "NOT_COVERED", "POLICY_NOT_IN_FORCE", "EXCLUDED_CAUSE", "INSUFFICIENT_EVIDENCE", "BELOW_DEDUCTIBLE", "OTHER", null ],
+            "type" : [ "string", "null" ]
+          }
+        },
+        "type" : "object"
+      },
+      "DocumentChecklist" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ChecklistItem"
+            },
+            "type" : "array"
+          },
+          "other" : {
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentView"
+            },
+            "type" : "array"
+          },
+          "outstanding" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "DocumentView" : {
+        "properties" : {
+          "contentType" : {
+            "type" : "string"
+          },
+          "documentType" : {
+            "type" : "string"
+          },
+          "filename" : {
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "reviewNote" : {
+            "type" : [ "string", "null" ]
+          },
+          "reviewedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "sizeBytes" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "status" : {
+            "enum" : [ "UPLOADED", "ACCEPTED", "RE_REQUESTED" ],
+            "type" : "string"
+          },
+          "uploadedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Entry" : {
+        "properties" : {
+          "actorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "amount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "at" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "reason" : {
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "enum" : [ "RESERVE_SET", "PAYMENT" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "FieldProblem" : {
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "field" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InfoRequestBody" : {
+        "properties" : {
+          "question" : {
+            "maxLength" : 4000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          }
+        },
+        "required" : [ "question" ],
+        "type" : "object"
+      },
+      "InfoRequestView" : {
+        "properties" : {
+          "answer" : {
+            "type" : [ "string", "null" ]
+          },
+          "answeredAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "askedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "question" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Ledger" : {
+        "properties" : {
+          "approvedAmount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : [ "string", "null" ]
+          },
+          "coverageLimit" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "deductible" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "incurred" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "outstanding" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "paid" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "reserve" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "reserveStatus" : {
+            "enum" : [ "PROVISIONAL", "ASSESSED" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "LoginRequest" : {
+        "properties" : {
+          "email" : {
+            "maxLength" : 255,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "password" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "email", "password" ],
+        "type" : "object"
+      },
+      "LoginResponse" : {
+        "properties" : {
+          "accessToken" : {
+            "type" : "string"
+          },
+          "expiresIn" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "tokenType" : {
+            "type" : "string"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/UserView"
+          }
+        },
+        "type" : "object"
+      },
+      "MotorDetails" : {
+        "properties" : {
+          "driverName" : {
+            "maxLength" : 120,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "injury" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "injuryDescription" : {
+            "maxLength" : 2000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          },
+          "location" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "policeReport" : {
+            "maxLength" : 64,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          },
+          "thirdParty" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/ThirdPartyDetails"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "vehicleRegistration" : {
+            "maxLength" : 32,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Note" : {
+        "properties" : {
+          "text" : {
+            "maxLength" : 4000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          }
+        },
+        "required" : [ "text" ],
+        "type" : "object"
+      },
+      "OpenQuestion" : {
+        "properties" : {
+          "askedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "question" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "PageResponseClaimantClaimSummary" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ClaimantClaimSummary"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PageResponseClaimantUpdate" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ClaimantUpdate"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "PageResponseStaffClaimSummary" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/StaffClaimSummary"
+            },
+            "type" : "array"
+          },
+          "page" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "size" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalElements" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "Person" : {
+        "properties" : {
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Problem" : {
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "detail" : {
+            "type" : "string"
+          },
+          "errorId" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "items" : {
+              "$ref" : "#/components/schemas/FieldProblem"
+            },
+            "type" : "array"
+          },
+          "status" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PropertyDetails" : {
+        "properties" : {
+          "address" : {
+            "maxLength" : 500,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "cause" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "occupancy" : {
+            "maxLength" : 120,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          }
+        },
+        "type" : "object"
+      },
+      "Rejection" : {
+        "properties" : {
+          "explanation" : {
+            "type" : "string"
+          },
+          "reasonCode" : {
+            "enum" : [ "NOT_COVERED", "POLICY_NOT_IN_FORCE", "EXCLUDED_CAUSE", "INSUFFICIENT_EVIDENCE", "BELOW_DEDUCTIBLE", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "RejectionRequest" : {
+        "properties" : {
+          "explanation" : {
+            "maxLength" : 4000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "reason" : {
+            "enum" : [ "NOT_COVERED", "POLICY_NOT_IN_FORCE", "EXCLUDED_CAUSE", "INSUFFICIENT_EVIDENCE", "BELOW_DEDUCTIBLE", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "explanation", "reason" ],
+        "type" : "object"
+      },
+      "ReviewRequest" : {
+        "properties" : {
+          "decision" : {
+            "enum" : [ "ACCEPTED", "RE_REQUESTED" ],
+            "type" : "string"
+          },
+          "reason" : {
+            "maxLength" : 2000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          }
+        },
+        "required" : [ "decision" ],
+        "type" : "object"
+      },
+      "Settlement" : {
+        "properties" : {
+          "amount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount" ],
+        "type" : "object"
+      },
+      "StaffClaimDetail" : {
+        "properties" : {
+          "allowedActions" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "assignedOfficer" : {
+            "$ref" : "#/components/schemas/Person"
+          },
+          "claimNumber" : {
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "OWN_DAMAGE", "THIRD_PARTY_DAMAGE", "TOTAL_LOSS", "WINDSCREEN", "THEFT", "FIRE", "WATER_DAMAGE", "STORM", "OTHER" ],
+            "type" : "string"
+          },
+          "claimant" : {
+            "$ref" : "#/components/schemas/Person"
+          },
+          "contactPhone" : {
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "deadlines" : {
+            "$ref" : "#/components/schemas/Deadlines"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "estimate" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "incidentAtLocal" : {
+            "description" : "Local date and time in the claim's market zone, with no offset",
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "type" : "string"
+          },
+          "infoRequests" : {
+            "items" : {
+              "$ref" : "#/components/schemas/InfoRequestView"
+            },
+            "type" : "array"
+          },
+          "late" : {
+            "type" : "boolean"
+          },
+          "lateReason" : {
+            "type" : "string"
+          },
+          "ledger" : {
+            "$ref" : "#/components/schemas/Ledger"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "market" : {
+            "type" : "string"
+          },
+          "marketZone" : {
+            "type" : "string"
+          },
+          "motor" : {
+            "$ref" : "#/components/schemas/MotorDetails"
+          },
+          "openQuestion" : {
+            "$ref" : "#/components/schemas/OpenQuestion"
+          },
+          "policyId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "policyNumber" : {
+            "type" : "string"
+          },
+          "property" : {
+            "$ref" : "#/components/schemas/PropertyDetails"
+          },
+          "rejection" : {
+            "$ref" : "#/components/schemas/Rejection"
+          },
+          "reportedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED" ],
+            "type" : "string"
+          },
+          "timeline" : {
+            "items" : {
+              "$ref" : "#/components/schemas/TimelineEntry"
+            },
+            "type" : "array"
+          },
+          "version" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "yourAuthorityLimit" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "StaffClaimSummary" : {
+        "properties" : {
+          "assignedOfficerName" : {
+            "type" : [ "string", "null" ]
+          },
+          "claimNumber" : {
+            "type" : "string"
+          },
+          "claimType" : {
+            "enum" : [ "OWN_DAMAGE", "THIRD_PARTY_DAMAGE", "TOTAL_LOSS", "WINDSCREEN", "THEFT", "FIRE", "WATER_DAMAGE", "STORM", "OTHER" ],
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "decisionDueAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "estimate" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "late" : {
+            "type" : "boolean"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "market" : {
+            "type" : "string"
+          },
+          "overdue" : {
+            "type" : "boolean"
+          },
+          "pickupDueAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "reportedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED" ],
+            "type" : "string"
+          },
+          "version" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "waitingOnClaimant" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      },
+      "StaffFinancials" : {
+        "properties" : {
+          "approvedAmount" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : [ "string", "null" ]
+          },
+          "coverageLimit" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "deductible" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "entries" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Entry"
+            },
+            "type" : "array"
+          },
+          "incurred" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "outstanding" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "paid" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "reserve" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "reserveStatus" : {
+            "enum" : [ "PROVISIONAL", "ASSESSED" ],
+            "type" : "string"
+          },
+          "version" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "StaffOfficer" : {
+        "properties" : {
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "markets" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "role" : {
+            "enum" : [ "CLAIMANT", "OFFICER", "MANAGER" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "SubmitClaimRequest" : {
+        "properties" : {
+          "claimType" : {
+            "enum" : [ "OWN_DAMAGE", "THIRD_PARTY_DAMAGE", "TOTAL_LOSS", "WINDSCREEN", "THEFT", "FIRE", "WATER_DAMAGE", "STORM", "OTHER" ],
+            "type" : "string"
+          },
+          "contactPhone" : {
+            "maxLength" : 32,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "description" : {
+            "maxLength" : 4000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "estimate" : {
+            "description" : "Decimal amount as a string, in the claim currency",
+            "pattern" : "^-?\\d+(\\.\\d+)?$",
+            "type" : "string"
+          },
+          "incidentAtLocal" : {
+            "description" : "Local date and time in the claim's market zone, with no offset",
+            "pattern" : "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$",
+            "type" : "string"
+          },
+          "lateReason" : {
+            "maxLength" : 1000,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : "string"
+          },
+          "line" : {
+            "enum" : [ "MOTOR", "PROPERTY" ],
+            "type" : "string"
+          },
+          "motor" : {
+            "$ref" : "#/components/schemas/MotorDetails"
+          },
+          "policyId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "property" : {
+            "$ref" : "#/components/schemas/PropertyDetails"
+          }
+        },
+        "required" : [ "claimType", "estimate", "incidentAtLocal", "line", "policyId" ],
+        "type" : "object"
+      },
+      "ThirdPartyDetails" : {
+        "properties" : {
+          "insurer" : {
+            "maxLength" : 120,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          },
+          "name" : {
+            "maxLength" : 120,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          },
+          "phone" : {
+            "maxLength" : 32,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          },
+          "vehicleNumber" : {
+            "maxLength" : 32,
+            "minLength" : 0,
+            "pattern" : "[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*",
+            "type" : [ "string", "null" ]
+          }
+        },
+        "type" : "object"
+      },
+      "TimelineEntry" : {
+        "properties" : {
+          "actorName" : {
+            "type" : [ "string", "null" ]
+          },
+          "at" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "fromStatus" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED", null ],
+            "type" : [ "string", "null" ]
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "toStatus" : {
+            "enum" : [ "SUBMITTED", "UNDER_REVIEW", "AWAITING_INFO", "ASSESSED", "APPROVED", "SETTLED", "REJECTED", null ],
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "visibility" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "UserView" : {
+        "properties" : {
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "markets" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array",
+            "uniqueItems" : true
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "role" : {
+            "enum" : [ "CLAIMANT", "OFFICER", "MANAGER" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "bearerFormat" : "JWT",
+        "description" : "RS256 access token from POST /api/v1/auth/login",
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  },
+  "info" : {
+    "title" : "OpenAPI definition",
+    "version" : "v0"
+  },
+  "openapi" : "3.1.0",
+  "paths" : {
+    "/api/v1/.well-known/jwks.json" : {
+      "get" : {
+        "operationId" : "jwks",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "additionalProperties" : { },
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "security" : [ ],
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/login" : {
+      "post" : {
+        "operationId" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoginResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid credentials"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or blank email or password"
+          }
+        },
+        "security" : [ ],
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/claimant/claims" : {
+      "get" : {
+        "operationId" : "list",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "default" : 0,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "default" : 20,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseClaimantClaimSummary"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      },
+      "post" : {
+        "operationId" : "submit",
+        "parameters" : [ {
+          "description" : "Client-generated unique key; a repeat with the same key returns the original claim with 200.",
+          "in" : "header",
+          "name" : "Idempotency-Key",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SubmitClaimRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClaimantClaimDetail"
+                }
+              }
+            },
+            "description" : "Existing claim returned for a repeated Idempotency-Key",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClaimantClaimDetail"
+                }
+              }
+            },
+            "description" : "Claim created",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Policy not found, or not the caller's"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Idempotency conflict"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      }
+    },
+    "/api/v1/claimant/claims/{id}" : {
+      "get" : {
+        "operationId" : "get_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClaimantClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      }
+    },
+    "/api/v1/claimant/claims/{id}/documents" : {
+      "get" : {
+        "operationId" : "checklist",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentChecklist"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant" ]
+      },
+      "post" : {
+        "operationId" : "upload",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "documentType",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "properties" : {
+                  "file" : {
+                    "format" : "binary",
+                    "type" : "string"
+                  }
+                },
+                "required" : [ "file" ],
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentView"
+                }
+              }
+            },
+            "description" : "Document stored"
+          },
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentView"
+                }
+              }
+            },
+            "description" : "Document stored"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "CLAIM_CLOSED, or TOO_MANY_DOCUMENTS"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant" ]
+      }
+    },
+    "/api/v1/claimant/claims/{id}/documents/{docId}/content" : {
+      "get" : {
+        "operationId" : "content_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "docId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/pdf" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              },
+              "image/jpeg" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              },
+              "image/png" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "The file as uploaded, with its detected content type"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant" ]
+      }
+    },
+    "/api/v1/claimant/claims/{id}/info-responses" : {
+      "post" : {
+        "operationId" : "answer",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AnswerInfoRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClaimantClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      }
+    },
+    "/api/v1/claimant/policies" : {
+      "get" : {
+        "operationId" : "policies",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ClaimantPolicy"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      }
+    },
+    "/api/v1/claimant/updates" : {
+      "get" : {
+        "operationId" : "updates",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "default" : 0,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "default" : 20,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseClaimantUpdate"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "claimant-controller" ]
+      }
+    },
+    "/api/v1/staff/claims" : {
+      "get" : {
+        "operationId" : "list_1",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "queue",
+          "required" : false,
+          "schema" : {
+            "default" : "unassigned",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "status",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "page",
+          "required" : false,
+          "schema" : {
+            "default" : 0,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "size",
+          "required" : false,
+          "schema" : {
+            "default" : 20,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseStaffClaimSummary"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}" : {
+      "get" : {
+        "operationId" : "get",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/approval" : {
+      "post" : {
+        "operationId" : "approve",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Approval"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/assessment" : {
+      "post" : {
+        "operationId" : "assess",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Assessment"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/assign" : {
+      "post" : {
+        "operationId" : "assign",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Assign"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/documents" : {
+      "get" : {
+        "operationId" : "checklist_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentChecklist"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/documents/{docId}/content" : {
+      "get" : {
+        "operationId" : "content",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "docId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/pdf" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              },
+              "image/jpeg" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              },
+              "image/png" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "The file as uploaded, with its detected content type"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/documents/{docId}/review" : {
+      "post" : {
+        "operationId" : "review",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "docId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ReviewRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentView"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "ILLEGAL_TRANSITION (claim is closed), or the document was already re-requested"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/financials" : {
+      "get" : {
+        "operationId" : "financials",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffFinancials"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/info-requests" : {
+      "post" : {
+        "operationId" : "requestInfo",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/InfoRequestBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/notes" : {
+      "post" : {
+        "operationId" : "note",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Note"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/pick-up" : {
+      "post" : {
+        "operationId" : "pickUp",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request, including an id that is not a UUID"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/rejection" : {
+      "post" : {
+        "operationId" : "reject",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RejectionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/claims/{id}/settlement" : {
+      "post" : {
+        "operationId" : "settle",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The claim's ETag from its last read, e.g. \"3\". Missing: 428 PRECONDITION_REQUIRED. Stale: 409 STALE_VERSION.",
+          "in" : "header",
+          "name" : "If-Match",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Settlement"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StaffClaimDetail"
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "ETag" : {
+                "description" : "The claim's version, quoted; send it back as If-Match",
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid request"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not found, or not visible to the caller"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "STALE_VERSION, or a claim state that does not allow the action"
+          },
+          "415" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Request body is not in a supported media type"
+          },
+          "422" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Business rule or validation failure"
+          },
+          "428" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "If-Match header missing"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    },
+    "/api/v1/staff/officers" : {
+      "get" : {
+        "operationId" : "officers",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/StaffOfficer"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Missing or invalid token"
+          },
+          "403" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Wrong role, or an action the caller may not take on this claim"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "tags" : [ "staff-controller" ]
+      }
+    }
+  }
+}

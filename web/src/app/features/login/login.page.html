@@ -1,0 +1,64 @@
+<main class="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-10">
+  <div class="w-full max-w-md">
+    <div class="mb-6 flex items-center justify-center gap-2">
+      <lucide-icon [img]="icons.Shield" class="h-7 w-7 text-primary" aria-hidden="true" />
+      <span class="text-2xl font-bold text-primary">{{ product }}</span>
+    </div>
+
+    <section uiCard>
+      <div uiCardHeader>
+        <h1 uiCardTitle>Sign in</h1>
+        <p uiCardDescription>Use your work or policyholder account.</p>
+      </div>
+
+      <form uiCardContent class="space-y-4" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (auth.expired() && !problem()) {
+          <div role="status" data-testid="session-expired" class="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+            Your session expired. Sign in again to continue.
+          </div>
+        }
+        @if (problem(); as p) {
+          <div
+            role="alert"
+            data-testid="login-error"
+            class="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200"
+          >
+            {{ bannerText() }}
+            @if (p.errorId) {
+              <span class="mt-1 block text-xs">Reference: {{ p.errorId }}</span>
+            }
+          </div>
+        }
+
+        <ui-form-field label="Email" [required]="true" [error]="fieldError('email')">
+          <input uiInput type="email" formControlName="email" autocomplete="username" inputmode="email" autofocus />
+        </ui-form-field>
+
+        <ui-form-field label="Password" [required]="true" [error]="fieldError('password')">
+          <input uiInput type="password" formControlName="password" autocomplete="current-password" />
+        </ui-form-field>
+
+        <button uiButton type="submit" class="w-full" [disabled]="submitting()" [attr.aria-busy]="submitting()">
+          @if (submitting()) {
+            <lucide-icon [img]="icons.Loader2" class="mr-2 h-4 w-4 animate-spin motion-reduce:animate-none" aria-hidden="true" />
+            Signing in...
+          } @else {
+            Sign in
+          }
+        </button>
+      </form>
+    </section>
+
+    @if (demoUsers.length) {
+      <section class="mt-4 rounded-lg border border-dashed p-4 text-sm" aria-label="Demo accounts (development only)" data-testid="demo-hint">
+        <p class="font-medium">Demo accounts <span class="font-normal text-muted-foreground">(development build only)</span></p>
+        <p class="mt-1 text-xs text-muted-foreground">Password for all: <code>Password1!</code></p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          @for (u of demoUsers; track u.email) {
+            <button uiButton variant="outline" size="sm" type="button" (click)="useDemo(u.email)">{{ u.label }}</button>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</main>

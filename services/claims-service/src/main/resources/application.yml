@@ -1,0 +1,88 @@
+server:
+  port: 8080
+  tomcat:
+    # Lets Tomcat read the rest of a too-large upload so the client sees the 413, not a reset.
+    max-swallow-size: 20MB
+
+# API docs are off unless a profile turns them on (demo and tests do).
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+spring:
+  application:
+    name: claims-service
+  servlet:
+    multipart:
+      # T14: the API enforces the 10 MB limit; the request limit leaves room for the form fields.
+      max-file-size: 10MB
+      max-request-size: 11MB
+  datasource:
+    hikari:
+      data-source-properties:
+        # The driver adds the server's Detail line (the offending value) to exceptions and so to logs.
+        logServerErrorDetail: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      properties:
+        enable.idempotence: true
+        max.block.ms: 2000
+        delivery.timeout.ms: 5000
+        request.timeout.ms: 3000
+
+logging:
+  level:
+    # The producer retries a down broker about once a second and warns every time; the outbox poller
+    # already reports the outage once per failure run.
+    org.apache.kafka.clients.NetworkClient: ERROR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db
+  health:
+    # Trap 15: a Kafka outage must never change liveness or overall status.
+    kafka:
+      enabled: false
+
+app:
+  outbox:
+    poller:
+      enabled: true
+      interval: PT0.5S
+      batch-size: 100
+      ack-timeout: PT8S
+      # While publishing stays stuck, repeat the WARN (head row id and age) this often.
+      stuck-warn-interval: PT60S
+  documents:
+    # Never under a web root; keys are generated, client filenames are metadata only.
+    dir: ${APP_DOCUMENTS_DIR:${java.io.tmpdir}/claims-documents}
+  jwt:
+    # The signing key is generated here on first start (mode 600) and reused after a restart.
+    key-dir: ${APP_JWT_KEY_DIR:${user.home}/.claims-platform/keys}
+    issuer: claims-service
+    ttl: PT1H
+  sla:
+    # Placeholder service levels, not sourced (docs/domain/LIFECYCLE.md).
+    pickup-hours: 24
+    decision-days: 14

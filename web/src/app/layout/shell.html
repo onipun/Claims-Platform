@@ -1,0 +1,150 @@
+<div class="min-h-screen bg-background">
+  <a
+    href="#main"
+    (click)="skipToMain($event)"
+    class="sr-only z-[70] rounded-md bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+    >Skip to content</a
+  >
+
+  <!-- Mobile drawer -->
+  @if (drawerOpen()) {
+    <div class="fixed inset-0 z-50 lg:hidden" (keydown.escape)="closeDrawer()">
+      <div class="fixed inset-0 bg-background/80 backdrop-blur-sm" (click)="closeDrawer()" aria-hidden="true"></div>
+      <div
+        class="fixed inset-y-0 left-0 flex w-64 flex-col border-r bg-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation"
+        cdkTrapFocus
+        [cdkTrapFocusAutoCapture]="true"
+      >
+        <div class="flex h-16 items-center justify-between px-4">
+          <span class="text-xl font-bold text-primary">{{ product }}</span>
+          <button uiButton variant="ghost" size="icon" type="button" (click)="closeDrawer()">
+            <lucide-icon [img]="icons.X" class="h-5 w-5" aria-hidden="true" />
+            <span class="sr-only">Close navigation</span>
+          </button>
+        </div>
+        <nav class="flex-1 space-y-1 px-2" [attr.aria-label]="area + ' navigation'">
+          @for (item of items(); track item.path) {
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="bg-primary text-primary-foreground"
+              [routerLinkActiveOptions]="{ exact: !!item.exact }"
+              #rla="routerLinkActive"
+              [attr.aria-current]="rla.isActive ? 'page' : null"
+              [class.text-muted-foreground]="!rla.isActive"
+              [class.hover:bg-accent]="!rla.isActive"
+              [class.hover:text-accent-foreground]="!rla.isActive"
+              class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              (click)="closeDrawer()"
+            >
+              <lucide-icon [img]="item.icon" class="h-5 w-5" aria-hidden="true" />
+              <span class="flex-1">{{ item.label }}</span>
+            @if (badge(item); as b) {
+              <span class="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground ring-1 ring-primary-foreground/40" data-testid="nav-badge">{{ b.text }}<span class="sr-only"> {{ b.label }}</span></span>
+            }
+            </a>
+          }
+        </nav>
+      </div>
+    </div>
+  }
+
+  <!-- Desktop sidebar -->
+  <div class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-64 lg:flex-col" [attr.inert]="drawerOpen() ? '' : null">
+    <div class="flex flex-grow flex-col overflow-hidden border-r bg-card">
+      <div class="flex h-16 items-center gap-2 px-4">
+        <lucide-icon [img]="icons.Shield" class="h-6 w-6 text-primary" aria-hidden="true" />
+        <span class="text-xl font-bold text-primary">{{ product }}</span>
+      </div>
+      <nav class="flex-1 space-y-1 px-2 py-4" [attr.aria-label]="area + ' navigation'">
+        @for (item of items(); track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="bg-primary text-primary-foreground"
+            [routerLinkActiveOptions]="{ exact: !!item.exact }"
+            #rla="routerLinkActive"
+            [attr.aria-current]="rla.isActive ? 'page' : null"
+            [class.text-muted-foreground]="!rla.isActive"
+            [class.hover:bg-accent]="!rla.isActive"
+            [class.hover:text-accent-foreground]="!rla.isActive"
+            class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <lucide-icon [img]="item.icon" class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+            <span class="flex-1">{{ item.label }}</span>
+            @if (badge(item); as b) {
+              <span class="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground ring-1 ring-primary-foreground/40" data-testid="nav-badge">{{ b.text }}<span class="sr-only"> {{ b.label }}</span></span>
+            }
+          </a>
+        }
+      </nav>
+    </div>
+  </div>
+
+  <div class="lg:pl-64" [attr.inert]="drawerOpen() ? '' : null">
+    <!-- Top bar -->
+    <header class="sticky top-0 z-30 flex h-16 items-center gap-x-4 border-b bg-card px-4 shadow-sm">
+      <button uiButton variant="ghost" size="icon" type="button" class="lg:hidden" (click)="drawerOpen.set(true)" aria-haspopup="dialog">
+        <lucide-icon [img]="icons.Menu" class="h-5 w-5" aria-hidden="true" />
+        <span class="sr-only">Open navigation</span>
+      </button>
+
+      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+        <div class="flex flex-1"></div>
+        <div class="flex items-center gap-x-4 lg:gap-x-6">
+          <button uiButton variant="ghost" size="icon" type="button" (click)="theme.toggle()" [attr.aria-pressed]="theme.dark()">
+            <lucide-icon [img]="theme.dark() ? icons.Sun : icons.Moon" class="h-5 w-5" aria-hidden="true" />
+            <span class="sr-only">Toggle dark mode</span>
+          </button>
+
+          <button
+            uiButton
+            variant="ghost"
+            size="icon"
+            type="button"
+            [cdkMenuTriggerFor]="userMenu"
+            aria-label="Account menu"
+            data-testid="user-menu"
+          >
+            <lucide-icon [img]="icons.User" class="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="py-10 focus:outline-none">
+      <div class="px-4 sm:px-6 lg:px-8">
+        <router-outlet />
+      </div>
+    </main>
+  </div>
+</div>
+
+<ng-template #userMenu>
+  <div
+    cdkMenu
+    class="z-50 w-56 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
+    aria-label="Account"
+  >
+    <div class="px-2 py-1.5">
+      <div class="flex flex-col space-y-1">
+        <p class="text-sm font-medium leading-none">{{ auth.name() || 'Signed in' }}</p>
+        <p class="text-xs leading-none text-muted-foreground" data-testid="user-role">{{ auth.role() }}</p>
+        @if (auth.markets().length) {
+          <p class="text-xs leading-none text-muted-foreground">{{ auth.markets().join(', ') }}</p>
+        }
+      </div>
+    </div>
+    <div class="-mx-1 my-1 h-px bg-muted" role="separator"></div>
+    <button
+      cdkMenuItem
+      type="button"
+      class="relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-red-600 outline-none transition-colors focus:bg-accent focus:text-accent-foreground dark:text-red-400"
+      (cdkMenuItemTriggered)="signOut()"
+    >
+      <lucide-icon [img]="icons.LogOut" class="mr-2 h-4 w-4" aria-hidden="true" />
+      Sign out
+    </button>
+  </div>
+</ng-template>

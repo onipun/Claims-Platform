@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://chubb-claims.example/contracts/events/claim-event.v1.schema.json",
+  "title": "ClaimEvent v1",
+  "description": "Value of every record on claims.events.v1 (key = claimId). The snapshot is the full latest state of the claim, so a consumer upserts when claimVersion is greater than the stored version (D4). Money is a plain decimal string in the claim currency. The snapshot carries no claimant PII, loss details or free text (trap 12): additionalProperties is false at both levels, so a new field must be added here, deliberately.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "schemaVersion",
+    "occurredAt",
+    "claimId",
+    "claimVersion",
+    "snapshot"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventType": {
+      "enum": [
+        "ClaimSubmitted",
+        "ClaimAssigned",
+        "ClaimStatusChanged",
+        "ClaimUpdated",
+        "ClaimAssessed",
+        "ClaimApproved",
+        "ClaimRejected",
+        "ClaimSettled"
+      ]
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "claimId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "claimVersion": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot": {
+      "$ref": "#/$defs/ClaimSnapshot"
+    }
+  },
+  "$defs": {
+    "ClaimSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claimId",
+        "claimNumber",
+        "market",
+        "line",
+        "claimType",
+        "status",
+        "officerId",
+        "officerName",
+        "currency",
+        "reserve",
+        "reserveStatus",
+        "paid",
+        "approvedAmount",
+        "rejectionCode",
+        "submittedAt",
+        "firstPickedUpAt",
+        "decidedAt",
+        "closedAt",
+        "pickupDueAt",
+        "decisionDueAt",
+        "late"
+      ],
+      "properties": {
+        "claimId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "claimNumber": {
+          "type": "string"
+        },
+        "market": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "line": {
+          "enum": [
+            "MOTOR",
+            "PROPERTY"
+          ]
+        },
+        "claimType": {
+          "enum": [
+            "OWN_DAMAGE",
+            "THIRD_PARTY_DAMAGE",
+            "TOTAL_LOSS",
+            "WINDSCREEN",
+            "THEFT",
+            "FIRE",
+            "WATER_DAMAGE",
+            "STORM",
+            "OTHER"
+          ]
+        },
+        "status": {
+          "enum": [
+            "SUBMITTED",
+            "UNDER_REVIEW",
+            "AWAITING_INFO",
+            "ASSESSED",
+            "APPROVED",
+            "SETTLED",
+            "REJECTED"
+          ],
+          "description": "AWAITING_INFO means waiting on the claimant."
+        },
+        "officerId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "officerName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Staff display name, not claimant data."
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "reserve": {
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        },
+        "reserveStatus": {
+          "enum": [
+            "PROVISIONAL",
+            "ASSESSED"
+          ]
+        },
+        "paid": {
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        },
+        "approvedAmount": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        },
+        "rejectionCode": {
+          "enum": [
+            "NOT_COVERED",
+            "POLICY_NOT_IN_FORCE",
+            "EXCLUDED_CAUSE",
+            "INSUFFICIENT_EVIDENCE",
+            "BELOW_DEDUCTIBLE",
+            "OTHER",
+            null
+          ]
+        },
+        "submittedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "firstPickedUpAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "decidedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "closedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "pickupDueAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decisionDueAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "late": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

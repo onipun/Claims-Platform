@@ -1,0 +1,31 @@
+{
+  "claimId" : "4668e551-4713-47f3-b0ef-eb4171348c86",
+  "eventId" : "56153e05-3db4-407c-9d9b-aa81ae6ad88f",
+  "snapshot" : {
+    "late" : false,
+    "line" : "MOTOR",
+    "paid" : "0.00",
+    "market" : "SG",
+    "status" : "SUBMITTED",
+    "claimId" : "4668e551-4713-47f3-b0ef-eb4171348c86",
+    "reserve" : "3500.00",
+    "closedAt" : null,
+    "currency" : "SGD",
+    "claimType" : "OWN_DAMAGE",
+    "decidedAt" : null,
+    "officerId" : null,
+    "claimNumber" : "CLM-SG-2026-000002",
+    "officerName" : null,
+    "pickupDueAt" : "2026-03-12T02:00:00Z",
+    "submittedAt" : "2026-03-11T02:00:00Z",
+    "decisionDueAt" : "2026-03-25T02:00:00Z",
+    "rejectionCode" : null,
+    "reserveStatus" : "PROVISIONAL",
+    "approvedAmount" : null,
+    "firstPickedUpAt" : null
+  },
+  "eventType" : "ClaimSubmitted",
+  "occurredAt" : "2026-03-11T02:00:00Z",
+  "claimVersion" : 0,
+  "schemaVersion" : 1
+}

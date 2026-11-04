@@ -1,0 +1,83 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: insights-service
+  datasource:
+    hikari:
+      connection-timeout: 5000
+      data-source-properties:
+        logServerErrorDetail: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Lazy: nothing is fetched until the first token is validated.
+          jwk-set-uri: ${JWK_SET_URI:http://localhost:8080/api/v1/.well-known/jwks.json}
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: insights-projection
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: manual_immediate
+    producer:
+      properties:
+        max.block.ms: 2000
+        delivery.timeout.ms: 5000
+        request.timeout.ms: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db
+  health:
+    # Trap 15: a Kafka outage must never change liveness or overall status.
+    kafka:
+      enabled: false
+
+app:
+  jwt:
+    issuer: claims-service
+  # Fixed, indicative USD per one unit of currency (D9). Not market rates; labelled as such in responses.
+  fx:
+    usd-per-unit:
+      SGD: 0.74
+      HKD: 0.128
+      MYR: 0.21
+      THB: 0.029
+      IDR: 0.000062
+      AUD: 0.65
+  consumer:
+    retry:
+      initial-interval: 1s
+      multiplier: 2.0
+      max-interval: 30s
+      max-attempts: 4
+
+# API docs are off unless a profile turns them on (demo and tests do).
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

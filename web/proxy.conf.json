@@ -1,0 +1,4 @@
+{
+  "/api/v1/insights": { "target": "http://localhost:18081", "secure": false },
+  "/api": { "target": "http://localhost:18080", "secure": false }
+}

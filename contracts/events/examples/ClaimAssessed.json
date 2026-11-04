@@ -1,0 +1,31 @@
+{
+  "claimId" : "4668e551-4713-47f3-b0ef-eb4171348c86",
+  "eventId" : "ca0655e1-3399-43a8-b715-3b215425f4f4",
+  "snapshot" : {
+    "late" : false,
+    "line" : "MOTOR",
+    "paid" : "0.00",
+    "market" : "SG",
+    "status" : "ASSESSED",
+    "claimId" : "4668e551-4713-47f3-b0ef-eb4171348c86",
+    "reserve" : "3800.00",
+    "closedAt" : null,
+    "currency" : "SGD",
+    "claimType" : "OWN_DAMAGE",
+    "decidedAt" : null,
+    "officerId" : "c93a3a46-c34f-46f6-8113-662273cac1b9",
+    "claimNumber" : "CLM-SG-2026-000002",
+    "officerName" : "Priya Nair",
+    "pickupDueAt" : "2026-03-12T02:00:00Z",
+    "submittedAt" : "2026-03-11T02:00:00Z",
+    "decisionDueAt" : "2026-03-25T02:00:00Z",
+    "rejectionCode" : null,
+    "reserveStatus" : "ASSESSED",
+    "approvedAmount" : null,
+    "firstPickedUpAt" : "2026-03-11T02:00:00Z"
+  },
+  "eventType" : "ClaimAssessed",
+  "occurredAt" : "2026-03-11T02:00:00Z",
+  "claimVersion" : 5,
+  "schemaVersion" : 1
+}

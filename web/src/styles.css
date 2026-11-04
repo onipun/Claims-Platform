@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    height: 100%;
+    /* The header is sticky and 4rem high: anchors and focus scrolling must clear it (WCAG 2.4.11). */
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    min-height: 100vh;
+    height: 100%;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { @apply bg-muted; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-md; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-primary/20; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
+
+/* CDK's LiveAnnouncer element carries this class, which the CDK ships in a11y-prebuilt.css (not loaded here).
+   Without it the announced text is painted at the bottom of the page. Same rules as the CDK's. */
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+  outline: 0;
+  left: 0;
+}

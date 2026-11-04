@@ -1,0 +1,81 @@
+/* Design tokens. The HSL variables are FleetROS's (app/globals.css), light and dark, verbatim.
+   Two additions are marked "CLAIMS": --destructive / --destructive-foreground (FleetROS references
+   them but never defines them, plan trap 14) and contrast corrections for the orange accent. */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  --primary: 217 91% 24%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --accent: 24 95% 53%;
+  --accent-foreground: 0 0% 100%;
+
+  --muted: 210 40% 96.1%;
+  /* CLAIMS A8: FleetROS has 46.9%, which is 4.34:1 on --muted. 44% gives 4.81:1 on --muted, 5.27:1 on --background. */
+  --muted-foreground: 215.4 16.3% 44%;
+  --border: 214.3 31.8% 91.4%;
+  /* CLAIMS A7: FleetROS has 91.4% (1.23:1 on --background). Form control borders need 3:1 (WCAG 1.4.11); this is 3.43:1. */
+  --input: 215 16% 56%;
+  --ring: 217 91% 24%;
+
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --danger: 0 84.2% 60.2%;
+  --info: 199 89% 48%;
+
+  --radius: 0.5rem;
+
+  /* CLAIMS: undefined in FleetROS. White on hsl(0 72% 45%) is about 5.5:1 (AA for small text). */
+  --destructive: 0 72% 45%;
+  --destructive-foreground: 210 40% 98%;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 217 91% 60%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+
+  --accent: 24 95% 53%;
+  --accent-foreground: 0 0% 100%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --border: 217.2 32.6% 17.5%;
+  /* CLAIMS A7: FleetROS has 17.5% (1.37:1 on --background). This is 3.51:1. */
+  --input: 217 15% 42%;
+  --ring: 217 91% 60%;
+
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --danger: 0 62.8% 30.6%;
+  --info: 199 89% 48%;
+
+  /* CLAIMS: see above. */
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+}
+
+/* CLAIMS contrast correction. White on the FleetROS orange (24 95% 53%) is about 2.8:1, which fails
+   AA, and it is what `hover:bg-accent hover:text-accent-foreground` (outline/ghost buttons, menu
+   items, nav hover) renders. Near-black text on the same orange is about 7:1. */
+:root,
+.dark {
+  --accent-foreground: 222.2 84% 4.9%;
+}

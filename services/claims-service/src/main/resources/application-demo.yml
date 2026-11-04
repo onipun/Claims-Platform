@@ -1,0 +1,12 @@
+# Demo profile: also loads the seeded users and policies (db/demo, see V1000 there). The default profile
+# does not, so a fresh production database has no known accounts.
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/demo
+
+# Schemathesis and the demo read the contract from here; the default profile does not serve it.
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

@@ -1,0 +1,14 @@
+{
+  "name": "claims-platform-e2e",
+  "version": "0.0.0",
+  "private": true,
+  "description": "One browser journey across three roles, with axe. Runs in the Playwright container: docker compose --profile test run --rm playwright",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.3",
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.0.0"
+  }
+}

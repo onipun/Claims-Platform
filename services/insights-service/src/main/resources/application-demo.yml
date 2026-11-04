@@ -1,0 +1,4 @@
+# Demo profile: serve the OpenAPI document (Schemathesis and the demo read it; the default profile does not).
+springdoc:
+  api-docs:
+    enabled: true

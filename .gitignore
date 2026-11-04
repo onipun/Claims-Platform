@@ -1,0 +1,22 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.log
+hs_err_pid*
+# Node / Angular
+node_modules/
+web/dist/
+web/.angular/
+web/coverage/
+npm-debug.log*
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.DS_Store
+# Evidence scratch
+docs/evidence/
